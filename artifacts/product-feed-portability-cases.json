@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "1.0",
+  "edition": "2026-09-13",
+  "experimentId": "feed-portability-2026-09-13",
+  "exampleOnly": true,
+  "scope": "Controlled local portability demonstration. Twelve deliberately authored synthetic records: two controls and ten edge cases. No merchant feed, vendor upload, live page request, or model inference.",
+  "target": "An editorial review subset inspired by OpenAI Stable native discovery, with additional identity and evidence checks. Not a complete provider validator.",
+  "methods": [
+    "copy",
+    "mapped"
+  ],
+  "denominator": "12 records per method; 2 controls and 10 failure cases. Do not infer real-world rates.",
+  "oracle": "Expected mapped decisions were recorded in this fixture file before the experiment was executed. The same author designed the fixtures and checks; this is not an independent or blind evaluation.",
+  "sources": [
+    {
+      "id": "openai",
+      "title": "OpenAI: Stable product file-upload specification",
+      "url": "https://developers.openai.com/commerce/specs/file-upload/products",
+      "note": "Native discovery fields and the distinct Google-compatible path. This edition is a selected comparison, not the complete upload contract.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-group",
+      "title": "Google Merchant Center: Item group ID",
+      "url": "https://support.google.com/merchants/answer/6324507?hl=en",
+      "note": "Variant groups, identifying attributes, and matching landing-page values.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-price",
+      "title": "Google Merchant Center: Price",
+      "url": "https://support.google.com/merchants/answer/6324371?hl=en",
+      "note": "Amount and currency, plus agreement with landing page and checkout.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-dimensions",
+      "title": "Google Merchant Center: Product dimensions and weight",
+      "url": "https://support.google.com/merchants/answer/11018531?hl=en",
+      "note": "Product measures, accepted units, and agreement between repeated measurements. Packaging has a different meaning.",
+      "checked": "2026-09-13"
+    }
+  ],
+  "cases": [
+    {
+      "id": "C01",
+      "label": "Native nonvariant control",
+      "control": true,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "clear",
+      "reason": "The selected local checks find no issue."
+    },
+    {
+      "id": "C02",
+      "label": "Native variant control",
+      "control": true,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "group_id": "DEMO-MUG",
+        "listing_has_variations": true,
+        "variant_dict": {
+          "color": "Blue"
+        },
+        "color": "Blue"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "clear",
+      "reason": "The selected local checks find no issue in the declared variant."
+    },
+    {
+      "id": "F01",
+      "label": "Destination field names",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "id": "DEMO-MUG-BLUE",
+        "link": "https://example.com/mug?color=blue",
+        "image_link": "https://example.com/images/mug-blue.jpg"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "clear",
+      "reason": "Map source keys to the selected native representation."
+    },
+    {
+      "id": "F02",
+      "label": "Preorder spelling",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "availability": "preorder",
+        "price": "18.00 USD",
+        "id": "DEMO-MUG-BLUE",
+        "link": "https://example.com/mug?color=blue",
+        "image_link": "https://example.com/images/mug-blue.jpg"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "clear",
+      "reason": "Translate the explicit Google stock value to native pre_order."
+    },
+    {
+      "id": "F03",
+      "label": "Variant representation",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "id": "DEMO-MUG-BLUE",
+        "link": "https://example.com/mug?color=blue",
+        "image_link": "https://example.com/images/mug-blue.jpg",
+        "item_group_id": "DEMO-MUG",
+        "variant_option": "color:Blue",
+        "color": "Blue"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "clear",
+      "reason": "Preserve the parent and selected options while constructing native grouping fields."
+    },
+    {
+      "id": "F04",
+      "label": "Mixed explicit product units",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "product_length": "30 in",
+        "product_width": "50.8 cm"
+      },
+      "evidence": {
+        "dimensionBasis": "product"
+      },
+      "expectedAfterMapping": "clear",
+      "reason": "Convert two evidenced product axes to one unit."
+    },
+    {
+      "id": "F05",
+      "label": "Missing seller identity",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "hold",
+      "reason": "A required seller identity cannot be derived from the product brand."
+    },
+    {
+      "id": "F06",
+      "label": "Numeric item identifier",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": 12345,
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "hold",
+      "reason": "The local profile refuses numeric IDs because prior string information may be lost."
+    },
+    {
+      "id": "F07",
+      "label": "Parent reused as item ID",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "group_id": "DEMO-MUG-BLUE",
+        "listing_has_variations": true,
+        "variant_dict": {
+          "color": "Blue"
+        },
+        "color": "Blue"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "hold",
+      "reason": "The parent and selected item must remain distinct."
+    },
+    {
+      "id": "F08",
+      "label": "Conflicting selected color",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "group_id": "DEMO-MUG",
+        "listing_has_variations": true,
+        "variant_dict": {
+          "color": "White"
+        },
+        "color": "Blue"
+      },
+      "evidence": {},
+      "expectedAfterMapping": "hold",
+      "reason": "A mapping must not silently choose between contradictory selected colors."
+    },
+    {
+      "id": "F09",
+      "label": "Price disagrees with page",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD"
+      },
+      "evidence": {
+        "pagePrice": "19.00 USD"
+      },
+      "expectedAfterMapping": "hold",
+      "reason": "The supplied fictional page evidence disagrees with the offer price."
+    },
+    {
+      "id": "F10",
+      "label": "Package dimensions relabeled",
+      "control": false,
+      "exampleOnly": true,
+      "input": {
+        "item_id": "DEMO-MUG-BLUE",
+        "title": "Demo ceramic mug — blue",
+        "description": "Synthetic blue ceramic mug for a local feed experiment.",
+        "url": "https://example.com/mug?color=blue",
+        "brand": "Example Workshop",
+        "seller_name": "Example Retailer",
+        "image_url": "https://example.com/images/mug-blue.jpg",
+        "availability": "in_stock",
+        "price": "18.00 USD",
+        "dimensions": {
+          "length": "12",
+          "width": "10",
+          "unit": "cm"
+        }
+      },
+      "evidence": {
+        "dimensionBasis": "shipping_package"
+      },
+      "expectedAfterMapping": "hold",
+      "reason": "Package measurements do not establish the item dimensions."
+    }
+  ]
+}

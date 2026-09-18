@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0",
+  "exampleOnly": true,
+  "edition": "2026-09-13",
+  "scope": "Fictional identity relationships, not assigned manufacturer or trade-item data.",
+  "rows": [
+    {
+      "itemId": "DEMO-MUG-BLUE",
+      "groupId": "DEMO-MUG",
+      "brand": "Example Workshop",
+      "mpn": "DEMO-350-B",
+      "seller": "Example Retailer",
+      "offerId": "RETAILER-DEMO-BLUE",
+      "gtin": null,
+      "selectedOptions": {
+        "color": "Blue"
+      },
+      "decision": "GTIN unresolved; do not invent an assignment."
+    },
+    {
+      "itemId": "DEMO-MUG-WHITE",
+      "groupId": "DEMO-MUG",
+      "brand": "Example Workshop",
+      "mpn": "DEMO-350-W",
+      "seller": "Example Retailer",
+      "offerId": "RETAILER-DEMO-WHITE",
+      "gtin": null,
+      "selectedOptions": {
+        "color": "White"
+      },
+      "decision": "GTIN unresolved; keep this child distinct from the blue selection."
+    }
+  ],
+  "reviewQuestions": [
+    "Does this identify an item, group, manufacturer part, or seller offer?",
+    "Is the value preserved as a string?",
+    "Which source establishes the relationship?",
+    "What remains unverified?"
+  ]
+}

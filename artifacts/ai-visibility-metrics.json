@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "1.0",
+  "title": "AI visibility metric reference",
+  "updated": "2026-09-18",
+  "canonical": "https://www.iamgeorgekelly.com/field-guide/ai-visibility-metrics-reference",
+  "scope": "A site-specific reporting vocabulary, not an industry standard or live dataset.",
+  "metrics": [
+    {
+      "id": "google_web_impressions",
+      "label": "Web impressions",
+      "report": "Search Console / Search results / Web",
+      "unit": "impressions",
+      "definition": "Count",
+      "evidence": "An appearance under the selected search report scope",
+      "doesNotEstablish": "Unique people or on-site visits",
+      "sourceUrl": "https://support.google.com/webmasters/answer/7576553?hl=en",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "google_web_clicks",
+      "label": "Web clicks",
+      "report": "Search Console / Search results / Web",
+      "unit": "clicks",
+      "definition": "Count",
+      "evidence": "Clicks under the selected search report scope",
+      "doesNotEstablish": "GA4 sessions or isolated AI clicks",
+      "sourceUrl": "https://support.google.com/webmasters/answer/7576553?hl=en",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "google_web_ctr_percent",
+      "label": "Web CTR",
+      "report": "Search Console / Search results / Web",
+      "unit": "percent",
+      "definition": "100 × Web clicks / Web impressions; null when impressions = 0",
+      "evidence": "Click rate for matching report filters and aggregation",
+      "doesNotEstablish": "AI CTR when divided by an AI-only denominator",
+      "sourceUrl": "https://support.google.com/webmasters/answer/7576553?hl=en",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "google_ai_search_impressions",
+      "label": "Google AI Search impressions",
+      "report": "Search Console / Generative AI performance / Search",
+      "unit": "impressions",
+      "definition": "Count; overlaps overall Web impressions",
+      "evidence": "Recorded exposure in supported Google AI search features",
+      "doesNotEstablish": "Additional exposure to add to Web totals, or AI visits",
+      "sourceUrl": "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "ga4_ai_assistant_sessions",
+      "label": "AI Assistant sessions",
+      "report": "GA4 / Traffic acquisition / Session default channel group",
+      "unit": "sessions",
+      "definition": "Sessions classified as AI Assistant",
+      "evidence": "Collected sessions from recognized assistant traffic",
+      "doesNotEstablish": "Google AI Overviews and AI Mode visits",
+      "sourceUrl": "https://support.google.com/analytics/answer/9756891?hl=en",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "ga4_organic_search_sessions",
+      "label": "Organic Search sessions",
+      "report": "GA4 / Traffic acquisition / Session default channel group",
+      "unit": "sessions",
+      "definition": "Sessions classified as Organic Search",
+      "evidence": "Collected organic-search sessions; includes Google AI search traffic",
+      "doesNotEstablish": "A separation of AI search from other organic visits",
+      "sourceUrl": "https://support.google.com/analytics/answer/9756891?hl=en",
+      "checked": "2026-09-18",
+      "authority": "provider definition with editorial scope notes"
+    },
+    {
+      "id": "observed_answer_citations",
+      "label": "Observed answer citations",
+      "report": "A saved, manually reviewed answer panel",
+      "unit": "answer observations",
+      "definition": "Count observations containing a verified link to the target URL",
+      "evidence": "Citation within the recorded prompts, surface, date, and model settings",
+      "doesNotEstablish": "All-market share, all prompts, or a site visit",
+      "sourceUrl": null,
+      "checked": "2026-09-18",
+      "authority": "editorial convention"
+    },
+    {
+      "id": "resource_requests",
+      "label": "Resource requests",
+      "report": "Server or hosting request log",
+      "unit": "requests",
+      "definition": "Count matching method, path, period, and verified identity rule",
+      "evidence": "A recorded request for a resource",
+      "doesNotEstablish": "A unique human, a citation, or agent identity from user-agent text alone",
+      "sourceUrl": null,
+      "checked": "2026-09-18",
+      "authority": "editorial convention"
+    },
+    {
+      "id": "qualified_inquiries",
+      "label": "Qualified inquiries",
+      "report": "Reviewed inquiry record",
+      "unit": "inquiries",
+      "definition": "Count unique inquiries meeting written fit criteria",
+      "evidence": "A verified outcome under the stated review rule",
+      "doesNotEstablish": "Revenue, incremental effect, or attribution to an unobserved source",
+      "sourceUrl": null,
+      "checked": "2026-09-18",
+      "authority": "editorial convention"
+    },
+    {
+      "id": "planned_search_clicks",
+      "label": "Planned search clicks",
+      "report": "Scenario worksheet",
+      "unit": "modeled clicks",
+      "definition": "Impressions × assumed CTR percent / 100",
+      "evidence": "Arithmetic under a chosen rate",
+      "doesNotEstablish": "A ranking forecast or measured audience growth",
+      "sourceUrl": null,
+      "checked": "2026-09-18",
+      "authority": "editorial convention"
+    }
+  ],
+  "requiredObservationContext": [
+    "metricId",
+    "value",
+    "dataStatus",
+    "propertyOrDataset",
+    "startDate",
+    "endDate",
+    "timezone",
+    "filters",
+    "aggregation",
+    "evidenceReference",
+    "capturedAt"
+  ],
+  "dataStatuses": [
+    "available",
+    "preliminary",
+    "unavailable"
+  ],
+  "rules": [
+    "Unknown values are null, not zero.",
+    "Do not add impressions, clicks, sessions, requests, citations, or inquiries together.",
+    "Combine a numerator and denominator only when scope, dates, filters, and aggregation match.",
+    "Never calculate AI CTR from overall Web clicks and AI impressions.",
+    "Do not infer all-audience trends from a fixed prompt panel."
+  ],
+  "exampleOnly": true,
+  "exampleObservation": {
+    "metricId": "google_ai_search_impressions",
+    "value": null,
+    "dataStatus": "unavailable",
+    "propertyOrDataset": "sc-domain:example.com",
+    "startDate": "2026-09-01",
+    "endDate": "2026-09-14",
+    "timezone": "America/Los_Angeles",
+    "filters": {},
+    "aggregation": "property",
+    "evidenceReference": "Replace with your own saved report",
+    "capturedAt": null
+  }
+}

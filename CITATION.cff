@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Cite the linked article for its methodology and this repository commit for the reproduced artifact snapshot."
+type: software
+title: "Agentic Commerce Field Guide: Reproducible Artifacts"
+authors:
+  - family-names: Kelly
+    given-names: George
+    website: "https://www.iamgeorgekelly.com/about"
+version: "2026.09.18"
+date-released: "2026-09-18"
+url: "https://www.iamgeorgekelly.com/field-guide"
+repository-code: "https://github.com/iamgeorgekelly/agentic-commerce-field-guide"
+abstract: "A deterministic synthetic product-feed portability experiment and source-linked product-data and measurement references."
+keywords:
+  - agentic commerce
+  - product data
+  - product feeds
+  - reproducibility

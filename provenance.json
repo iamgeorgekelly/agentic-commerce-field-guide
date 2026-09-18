@@ -1,0 +1,36 @@
+{
+  "snapshotDate": "2026-09-18",
+  "scope": "Copies of files already publicly served by iamgeorgekelly.com. Source links and example labels are retained.",
+  "files": [
+    {
+      "file": "artifacts/product-feed-portability.mjs",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-feed-portability.mjs",
+      "sha256": "dc91f1609da77245a28f0a2a4818e1b60276170c24c6d0d665a2bf3b6f9196c1"
+    },
+    {
+      "file": "artifacts/product-feed-portability-cases.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-feed-portability-cases.json",
+      "sha256": "6649e4c9eafc75b966b7705c5b6f75d926be145e0d5b3acc53a39793455e70be"
+    },
+    {
+      "file": "artifacts/product-feed-portability-results.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-feed-portability-results.json",
+      "sha256": "7d3f3c217826de2c7009f5a9266b986c4addba433ae943fd11e03c01e766e4a1"
+    },
+    {
+      "file": "artifacts/product-feed-reference.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-feed-reference.json",
+      "sha256": "989cb2d3ff897b415fff9c6d2cdb353ba3b7d66e72b646a3ef66a8a766293613"
+    },
+    {
+      "file": "artifacts/product-identity-ledger.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-identity-ledger.json",
+      "sha256": "f206a0f08887a2d6171ae5a66cbde4d84aa8037339c07abe3ca4cdf2d1b67575"
+    },
+    {
+      "file": "artifacts/ai-visibility-metrics.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/ai-visibility-metrics.json",
+      "sha256": "01910b6a5a19255102d5855eb31c1a674673b50fce34c53d6384d309e92b6352"
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "schemaVersion": "1.0",
+  "edition": "2026-09-13",
+  "title": "Twenty product-feed concepts: source, destination, and review",
+  "scope": "Selected Google product-data fields, Shopify Admin API 2026-07 source locations, and OpenAI Stable native discovery file uploads. Not a complete feed, upload validator, or admission guarantee. Google-compatible OpenAI uploads are a separate path.",
+  "exampleOnly": true,
+  "sources": [
+    {
+      "id": "openai",
+      "title": "OpenAI: Stable product file-upload specification",
+      "url": "https://developers.openai.com/commerce/specs/file-upload/products",
+      "note": "Native discovery fields and the distinct Google-compatible path. This edition is a selected comparison, not the complete upload contract.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google",
+      "title": "Google Merchant Center: Product data specification",
+      "url": "https://support.google.com/merchants/answer/7052112?hl=en",
+      "note": "Google feed field names and category-dependent requirements. This reference does not cover every country, category, or program.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "shopify-product",
+      "title": "Shopify Admin API 2026-07: Product",
+      "url": "https://shopify.dev/docs/api/admin-graphql/2026-07/objects/Product",
+      "note": "Source product description, vendor, category, and online-store URL. Suggested transformations remain editorial decisions.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "shopify-variant",
+      "title": "Shopify Admin API 2026-07: ProductVariant",
+      "url": "https://shopify.dev/docs/api/admin-graphql/2026-07/objects/ProductVariant",
+      "note": "Variant identity, SKU, barcode, selected options, media, inventory, and pricing context. A source field does not prove destination eligibility.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "taxonomy",
+      "title": "Shopify: Versioned product taxonomy and mappings",
+      "url": "https://github.com/Shopify/product-taxonomy",
+      "note": "Existing category and attribute mappings. Record a pinned release and examine the actual mapping rather than equating category IDs.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-id",
+      "title": "Google Merchant Center: Product ID",
+      "url": "https://support.google.com/merchants/answer/6324405?hl=en",
+      "note": "Stable distinct product identifiers, including separate variant IDs.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-group",
+      "title": "Google Merchant Center: Item group ID",
+      "url": "https://support.google.com/merchants/answer/6324507?hl=en",
+      "note": "Variant groups, identifying attributes, and matching landing-page values.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-price",
+      "title": "Google Merchant Center: Price",
+      "url": "https://support.google.com/merchants/answer/6324371?hl=en",
+      "note": "Amount and currency, plus agreement with landing page and checkout.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-stock",
+      "title": "Google Merchant Center: Availability",
+      "url": "https://support.google.com/merchants/answer/6324448?hl=en",
+      "note": "Google stock-state vocabulary and matching availability across shopping surfaces.",
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "google-dimensions",
+      "title": "Google Merchant Center: Product dimensions and weight",
+      "url": "https://support.google.com/merchants/answer/11018531?hl=en",
+      "note": "Product measures, accepted units, and agreement between repeated measurements. Packaging has a different meaning.",
+      "checked": "2026-09-13"
+    }
+  ],
+  "fields": [
+    {
+      "id": "item-identity",
+      "name": "Item identity",
+      "group": "Identity",
+      "shopifySource": "Variant ID or verified unique SKU",
+      "googleField": "id",
+      "openaiStableField": "item_id",
+      "nativeScope": "Required for native discovery",
+      "decision": "Use an immutable string for the sellable selection. Check uniqueness before choosing a SKU as the identifier; a parent record cannot identify every child.",
+      "illustrativeCandidate": {
+        "item_id": "DEMO-MUG-BLUE"
+      },
+      "counterexample": {
+        "item_id": 12345
+      },
+      "review": "Numeric conversion may erase leading zeros; do not reconstruct a lost identifier by guessing.",
+      "sourceIds": [
+        "google-id",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "title",
+      "name": "Title",
+      "group": "Description",
+      "shopifySource": "Product title + selected options",
+      "googleField": "title",
+      "openaiStableField": "title",
+      "nativeScope": "Required for native discovery",
+      "decision": "Name the selection the visitor will receive. Assemble the title from supported facts and inspect the result after truncation.",
+      "illustrativeCandidate": {
+        "title": "Demo ceramic mug — blue, 350 mL"
+      },
+      "counterexample": {
+        "title": "Demo mug — red"
+      },
+      "review": "A syntactically valid title can identify the wrong color. Compare it with the actual selected variant.",
+      "sourceIds": [
+        "google",
+        "shopify-product",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "description",
+      "name": "Description",
+      "group": "Description",
+      "shopifySource": "descriptionHtml or reviewed plain description",
+      "googleField": "description",
+      "openaiStableField": "description",
+      "nativeScope": "Required for native discovery",
+      "decision": "Convert markup to readable text while retaining meaningful separations. Check claims against source facts instead of letting a cleanup step add benefits.",
+      "illustrativeCandidate": {
+        "description": "Blue ceramic mug with a handle."
+      },
+      "counterexample": {
+        "description": "Guaranteed unbreakable mug."
+      },
+      "review": "A claim without supporting evidence needs review even when it fits the destination field.",
+      "sourceIds": [
+        "google",
+        "shopify-product",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "product-url",
+      "name": "Product URL",
+      "group": "Offer",
+      "shopifySource": "onlineStoreUrl + verified variant selection",
+      "googleField": "link",
+      "openaiStableField": "url",
+      "nativeScope": "Required for native discovery",
+      "decision": "Check the page in the intended market and selected option. A public parent URL is insufficient evidence that the correct item is selected.",
+      "illustrativeCandidate": {
+        "url": "https://example.com/mug?color=blue"
+      },
+      "counterexample": {
+        "url": "https://example.com/mug?color=red"
+      },
+      "review": "The URL can resolve successfully while landing on the wrong offer.",
+      "sourceIds": [
+        "google-group",
+        "shopify-product",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "main-image",
+      "name": "Main image",
+      "group": "Description",
+      "shopifySource": "Variant-associated media",
+      "googleField": "image_link",
+      "openaiStableField": "image_url",
+      "nativeScope": "Required for native discovery",
+      "decision": "Choose an image tied to the selection, then confirm the depicted finish and size where visible. Keep image identity separate from URL syntax.",
+      "illustrativeCandidate": {
+        "image_url": "https://example.com/images/mug-blue.jpg"
+      },
+      "counterexample": {
+        "image_url": "https://example.com/images/mug-red.jpg"
+      },
+      "review": "Image review needs the asset itself. A filename is only a clue, not visual proof.",
+      "sourceIds": [
+        "google",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "brand",
+      "name": "Brand",
+      "group": "Identity",
+      "shopifySource": "Verified brand; inspect product.vendor",
+      "googleField": "brand",
+      "openaiStableField": "brand",
+      "nativeScope": "Required for native discovery",
+      "decision": "Confirm that the source vendor value is actually the product brand. In a reseller catalog, seller and brand can be different organizations.",
+      "illustrativeCandidate": {
+        "brand": "Example Workshop"
+      },
+      "counterexample": {
+        "brand": "Unknown"
+      },
+      "review": "Resolve the brand from approved product evidence; an invented placeholder is not a repair.",
+      "sourceIds": [
+        "google",
+        "shopify-product",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "seller",
+      "name": "Seller",
+      "group": "Offer",
+      "shopifySource": "Verified seller identity for this offer",
+      "googleField": "Merchant/account context; no equivalent generic field assumed",
+      "openaiStableField": "seller_name",
+      "nativeScope": "Required for native discovery",
+      "decision": "Attach the organization selling this offer. A Google-style row alone may not carry the seller information needed by a different integration.",
+      "illustrativeCandidate": {
+        "seller_name": "Example Retailer"
+      },
+      "counterexample": {
+        "seller_name": ""
+      },
+      "review": "Require an explicit trusted source for seller identity. Do not copy brand merely because a required cell is empty.",
+      "sourceIds": [
+        "openai",
+        "google"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "price",
+      "name": "Regular price",
+      "group": "Offer",
+      "shopifySource": "Variant price with market and currency context",
+      "googleField": "price",
+      "openaiStableField": "price",
+      "nativeScope": "Required for native discovery",
+      "decision": "Keep amount, currency, market, and extraction time together. Compare the payable amount with page evidence for the same selection.",
+      "illustrativeCandidate": {
+        "price": "18.00 USD"
+      },
+      "counterexample": {
+        "price": "1800 USD"
+      },
+      "review": "Both strings can parse. Only evidence establishes whether a cents-to-major-unit conversion was appropriate.",
+      "sourceIds": [
+        "google-price",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "availability",
+      "name": "Availability",
+      "group": "Offer",
+      "shopifySource": "Sellability evidence plus inventory policy",
+      "googleField": "availability",
+      "openaiStableField": "availability",
+      "nativeScope": "Required for native discovery",
+      "decision": "Use an explicit vocabulary mapping. Google preorder and native pre_order differ. A quantity alone does not resolve release status, sales-channel eligibility, or backorder policy.",
+      "illustrativeCandidate": {
+        "availability": "pre_order"
+      },
+      "counterexample": {
+        "availability": "preorder"
+      },
+      "review": "The second spelling belongs to the Google vocabulary; choose the destination path before translating. Unknown stock must not become an in-stock claim.",
+      "sourceIds": [
+        "google-stock",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "parent-group",
+      "name": "Parent group",
+      "group": "Identity",
+      "shopifySource": "Product/parent identity for verified sibling variants",
+      "googleField": "item_group_id",
+      "openaiStableField": "group_id",
+      "nativeScope": "Conditional: variants",
+      "decision": "Preserve a parent identifier separately from each sellable item. Group only genuine selections of the same product.",
+      "illustrativeCandidate": {
+        "item_id": "DEMO-BLUE",
+        "group_id": "DEMO-MUG"
+      },
+      "counterexample": {
+        "item_id": "DEMO-MUG",
+        "group_id": "DEMO-MUG"
+      },
+      "review": "A repeated parent/child identifier cannot express which selection is being offered.",
+      "sourceIds": [
+        "google-group",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "selected-options",
+      "name": "Selected options",
+      "group": "Identity",
+      "shopifySource": "selectedOptions name/value pairs",
+      "googleField": "variant_option plus applicable standard attributes",
+      "openaiStableField": "variant_dict + listing_has_variations",
+      "nativeScope": "Conditional: variants",
+      "decision": "Keep the selected values as a map. Validate duplicate option names before building an object, because overwriting a key can conceal conflicting input.",
+      "illustrativeCandidate": {
+        "variant_dict": {
+          "color": "Blue"
+        },
+        "listing_has_variations": true
+      },
+      "counterexample": {
+        "variant_dict": {
+          "color": "Blue"
+        },
+        "color": "Red"
+      },
+      "review": "Top-level attributes and selected options must agree. A transform should expose this contradiction, not silently choose a winner.",
+      "sourceIds": [
+        "google-group",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "gtin",
+      "name": "GTIN / barcode",
+      "group": "Identity",
+      "shopifySource": "barcode, only after identifying its standard",
+      "googleField": "gtin",
+      "openaiStableField": "gtin",
+      "nativeScope": "Native optional; Google requirements depend on the product",
+      "decision": "Keep assigned identifiers as strings. Check length and check digit, then verify assignment to the exact trade item. A checksum alone does not prove ownership or authenticity.",
+      "illustrativeCandidate": {
+        "gtin": "00000000000000"
+      },
+      "counterexample": {
+        "gtin": "00000000000001"
+      },
+      "review": "These are deliberately unassigned synthetic checksum examples. The first has a valid checksum but is not a publishable real GTIN; the second fails the checksum.",
+      "sourceIds": [
+        "openai",
+        "google",
+        "shopify-variant"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "mpn",
+      "name": "Manufacturer part number",
+      "group": "Identity",
+      "shopifySource": "Manufacturer-controlled field or metafield",
+      "googleField": "mpn",
+      "openaiStableField": "mpn",
+      "nativeScope": "Native optional; Google requirements depend on the product",
+      "decision": "Keep the manufacturer identifier separate from an internal SKU. Preserve its original spelling and punctuation with the associated brand.",
+      "illustrativeCandidate": {
+        "mpn": "DEMO-350-B"
+      },
+      "counterexample": {
+        "mpn": "autogenerated-missing-gtin"
+      },
+      "review": "A missing GTIN does not authorize inventing a manufacturer identifier.",
+      "sourceIds": [
+        "openai",
+        "google"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "category",
+      "name": "Category",
+      "group": "Description",
+      "shopifySource": "Product category from a pinned taxonomy release",
+      "googleField": "google_product_category and/or product_type",
+      "openaiStableField": "product_category",
+      "nativeScope": "Native optional; Google context varies",
+      "decision": "Treat taxonomy mapping as its own transformation. Record both source and destination taxonomy versions and inspect ambiguous or unmapped categories.",
+      "illustrativeCandidate": {
+        "product_category": "Home > Drinkware > Mugs"
+      },
+      "counterexample": {
+        "product_category": "gid://shopify/TaxonomyCategory/example"
+      },
+      "review": "This editorial path is illustrative. A source-specific category ID is not automatically a destination category path.",
+      "sourceIds": [
+        "taxonomy",
+        "shopify-product",
+        "google",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "color",
+      "name": "Color",
+      "group": "Description",
+      "shopifySource": "Selected option or verified category metafield",
+      "googleField": "color",
+      "openaiStableField": "color",
+      "nativeScope": "Native optional; Google context varies",
+      "decision": "Normalize presentation only when meaning is preserved. Do not merge distinct finishes because their labels contain the same color word.",
+      "illustrativeCandidate": {
+        "color": "Blue"
+      },
+      "counterexample": {
+        "color": "Blue",
+        "variant_dict": {
+          "color": "White"
+        }
+      },
+      "review": "Retain both observed values and resolve their authority before publishing.",
+      "sourceIds": [
+        "google-group",
+        "taxonomy",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "size",
+      "name": "Size",
+      "group": "Description",
+      "shopifySource": "Selected option plus explicit sizing context",
+      "googleField": "size; size_system when applicable",
+      "openaiStableField": "size; selected option where relevant",
+      "nativeScope": "Native optional; Google context varies",
+      "decision": "Preserve the selected label and its sizing context. A numeric size is not a measured product dimension.",
+      "illustrativeCandidate": {
+        "size": "350 mL"
+      },
+      "counterexample": {
+        "size": "Large, therefore 20 cm wide"
+      },
+      "review": "Do not derive physical dimensions from a marketing size label. Use measured evidence.",
+      "sourceIds": [
+        "google",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "material",
+      "name": "Material",
+      "group": "Description",
+      "shopifySource": "Verified product fact or category metafield",
+      "googleField": "material",
+      "openaiStableField": "material",
+      "nativeScope": "Native optional; Google context varies",
+      "decision": "Distinguish a finish or appearance from the underlying material. Retain manufacturer wording when a stronger interpretation would add an unsupported claim.",
+      "illustrativeCandidate": {
+        "material": "Ceramic"
+      },
+      "counterexample": {
+        "material": "Solid brass because the finish is brass-colored"
+      },
+      "review": "Appearance is not evidence of composition.",
+      "sourceIds": [
+        "google",
+        "taxonomy",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "dimensions",
+      "name": "Product dimensions",
+      "group": "Measurements",
+      "shopifySource": "Verified specification fields with basis and units",
+      "googleField": "product_length / product_width / product_height",
+      "openaiStableField": "dimensions",
+      "nativeScope": "Native optional; dependencies apply when supplied",
+      "decision": "Store axes, units, and whether the measurement describes the item or its package. The native structured object uses at least two positive axes with one unit.",
+      "illustrativeCandidate": {
+        "dimensions": {
+          "length": "10",
+          "width": "8",
+          "unit": "cm"
+        }
+      },
+      "counterexample": {
+        "dimensions": {
+          "length": "10",
+          "width": "8"
+        }
+      },
+      "review": "No unit can be inferred from country, category, or a neighboring row. Packaging measures cannot establish product fit.",
+      "sourceIds": [
+        "google-dimensions",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "weight",
+      "name": "Product weight",
+      "group": "Measurements",
+      "shopifySource": "Verified net product measure; inspect fulfillment-weight basis",
+      "googleField": "product_weight",
+      "openaiStableField": "weight + item_weight_unit",
+      "nativeScope": "Native optional; unit required when supplied",
+      "decision": "Separate net product weight from packed shipping weight. Record the basis before reusing an inventory or fulfillment field.",
+      "illustrativeCandidate": {
+        "weight": "0.3",
+        "item_weight_unit": "kg"
+      },
+      "counterexample": {
+        "weight": "0.3"
+      },
+      "review": "A bare number has no usable physical meaning. Supply the evidenced unit and basis.",
+      "sourceIds": [
+        "google-dimensions",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    },
+    {
+      "id": "sale-price",
+      "name": "Sale price",
+      "group": "Offer",
+      "shopifySource": "Reviewed current promotion; inspect compare-at semantics",
+      "googleField": "sale_price",
+      "openaiStableField": "sale_price",
+      "nativeScope": "Optional; relationship and currency rules apply",
+      "decision": "Identify the actual current regular and sale amounts. A compare-at value is not automatically the appropriate destination regular price.",
+      "illustrativeCandidate": {
+        "price": "18.00 USD",
+        "sale_price": "15.00 USD"
+      },
+      "counterexample": {
+        "price": "18.00 USD",
+        "sale_price": "20.00 USD"
+      },
+      "review": "Check the relationship, currency, and current payable amount before applying a promotion.",
+      "sourceIds": [
+        "google-price",
+        "shopify-variant",
+        "openai"
+      ],
+      "checked": "2026-09-13"
+    }
+  ]
+}
