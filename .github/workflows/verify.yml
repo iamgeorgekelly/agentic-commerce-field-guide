@@ -1,4 +1,4 @@
-name: Verify recorded experiment
+name: Verify public artifacts
 on: [push, pull_request]
 permissions:
   contents: read
@@ -10,4 +10,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node artifacts/product-feed-portability.mjs --check
+      - run: node scripts/verify-artifacts.mjs

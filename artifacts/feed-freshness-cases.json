@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "1.0",
+  "ruleVersion": "1.0.0",
+  "synthetic": true,
+  "description": "Six authored fixtures for the local feed-freshness checker. Frozen asOf values make historical examples reproducible; these are not customer or provider observations.",
+  "cases": [
+    {
+      "id": "sale-begins",
+      "label": "A sale begins",
+      "reason": "The supplied current source has a 14.00 USD sale; the feed still declares no sale.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T15:45:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1545",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": "14.00 USD",
+              "availability": "in_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "update_needed"
+    },
+    {
+      "id": "sale-ends",
+      "label": "A sale ends",
+      "reason": "The supplied source explicitly declares no sale; the feed still has the 14.00 USD sale.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T15:45:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1545",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": "14.00 USD",
+              "availability": "in_stock"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "update_needed"
+    },
+    {
+      "id": "stock-sells-out",
+      "label": "An item sells out",
+      "reason": "Current supplied stock is out_of_stock while the feed still says in_stock.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T15:45:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1545",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "out_of_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "update_needed"
+    },
+    {
+      "id": "preorder-becomes-available",
+      "label": "A preorder becomes available",
+      "reason": "The current supplied source explicitly says in_stock. No release date is used to infer this transition.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T15:45:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1545",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "pre_order"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "update_needed"
+    },
+    {
+      "id": "one-variant-changes",
+      "label": "Only one variant changes",
+      "reason": "The blue variant sells out; the white variant remains in stock. Exact item IDs determine the comparison even when row order changes.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T15:45:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1545",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "out_of_stock"
+            },
+            {
+              "item_id": "MUG-350-WHITE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-WHITE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            },
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "update_needed"
+    },
+    {
+      "id": "source-timestamp-conflict",
+      "label": "The source predates a conflicting feed",
+      "reason": "Both snapshots fall inside the selected age threshold, but the supplied authority is older than the disagreeing feed. Resolve chronology before proposing a replacement.",
+      "input": {
+        "schemaVersion": "1.0",
+        "profile": "openai-native-stable",
+        "asOf": "2026-09-21T16:00:00Z",
+        "maxAgeHours": 24,
+        "source": {
+          "capturedAt": "2026-09-21T14:30:00Z",
+          "evidenceRef": "synthetic:merchant-export-20260921-1430",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": "14.00 USD",
+              "availability": "in_stock"
+            }
+          ]
+        },
+        "feed": {
+          "capturedAt": "2026-09-21T15:30:00Z",
+          "evidenceRef": "synthetic:feed-export-20260921-1530",
+          "items": [
+            {
+              "item_id": "MUG-350-BLUE",
+              "price": "18.00 USD",
+              "sale_price": null,
+              "availability": "in_stock"
+            }
+          ]
+        }
+      },
+      "expectedStatus": "hold"
+    }
+  ]
+}
