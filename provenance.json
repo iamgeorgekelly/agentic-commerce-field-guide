@@ -1,11 +1,11 @@
 {
-  "snapshotDate": "2026-09-18",
-  "scope": "Copies of files already publicly served by iamgeorgekelly.com. Source links and example labels are retained.",
+  "snapshotDate": "2026-09-21",
+  "scope": "Selected public website download artifacts. Source links and synthetic example labels are retained; this snapshot is not evidence of provider acceptance or adoption.",
   "files": [
     {
       "file": "artifacts/product-feed-portability.mjs",
       "source": "https://www.iamgeorgekelly.com/downloads/product-feed-portability.mjs",
-      "sha256": "dc91f1609da77245a28f0a2a4818e1b60276170c24c6d0d665a2bf3b6f9196c1"
+      "sha256": "225ce89da3e74d22c06e7f32d0084d6dc5082aeae4c0ef7b479d9087e5280e97"
     },
     {
       "file": "artifacts/product-feed-portability-cases.json",
@@ -15,7 +15,7 @@
     {
       "file": "artifacts/product-feed-portability-results.json",
       "source": "https://www.iamgeorgekelly.com/downloads/product-feed-portability-results.json",
-      "sha256": "7d3f3c217826de2c7009f5a9266b986c4addba433ae943fd11e03c01e766e4a1"
+      "sha256": "4b81f705f5fcacd8d41163e00be361b133d50bdd564630b7cd23b4522cfbe7fb"
     },
     {
       "file": "artifacts/product-feed-reference.json",
@@ -31,6 +31,33 @@
       "file": "artifacts/ai-visibility-metrics.json",
       "source": "https://www.iamgeorgekelly.com/downloads/ai-visibility-metrics.json",
       "sha256": "01910b6a5a19255102d5855eb31c1a674673b50fce34c53d6384d309e92b6352"
+    },
+    {
+      "file": "artifacts/product-feed-review.mjs",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-feed-review.mjs",
+      "sha256": "cd8949ba878885996a18cedc2809d20fab3551fa1aee8a08af58ba5f35491210"
+    },
+    {
+      "file": "artifacts/feed-freshness.mjs",
+      "source": "https://www.iamgeorgekelly.com/downloads/feed-freshness.mjs",
+      "sha256": "e58af3152442faf033e7252a330bae166509481b9d004882773a7ac1851afb43"
+    },
+    {
+      "file": "artifacts/check-feed-freshness.mjs",
+      "source": "https://www.iamgeorgekelly.com/downloads/check-feed-freshness.mjs",
+      "sha256": "b7d4a7c45e31d81eb3e68ba0047b74106f8adeaeeb891add6a9e922fcab12fcc"
+    },
+    {
+      "file": "artifacts/feed-freshness-cases.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/feed-freshness-cases.json",
+      "sha256": "1155810d01835d564e48b07c9bca391d86ac6032221f03a1ab0a9870a3d60180"
+    },
+    {
+      "file": "artifacts/feed-freshness-example.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/feed-freshness-example.json",
+      "sha256": "61dd6cae17bed9ad106d0249ad119343afcdea1c112c3d4d1343c1611d34a579"
     }
-  ]
+  ],
+  "sourceSiteCommit": "196c939ede485e5412237a05bf943d7eabbdb15a",
+  "sourceVerifiedAt": "2026-09-22T02:02:22Z"
 }

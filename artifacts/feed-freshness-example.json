@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "profile": "openai-native-stable",
+  "asOf": "2026-09-21T16:00:00Z",
+  "maxAgeHours": 24,
+  "source": {
+    "capturedAt": "2026-09-21T15:45:00Z",
+    "evidenceRef": "synthetic:merchant-export-20260921-1545",
+    "items": [
+      {
+        "item_id": "MUG-350-BLUE",
+        "price": "18.00 USD",
+        "sale_price": "14.00 USD",
+        "availability": "in_stock"
+      }
+    ]
+  },
+  "feed": {
+    "capturedAt": "2026-09-21T15:30:00Z",
+    "evidenceRef": "synthetic:feed-export-20260921-1530",
+    "items": [
+      {
+        "item_id": "MUG-350-BLUE",
+        "price": "18.00 USD",
+        "sale_price": null,
+        "availability": "in_stock"
+      }
+    ]
+  }
+}
