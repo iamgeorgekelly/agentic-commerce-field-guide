@@ -1,0 +1,15 @@
+{
+  "record": {
+    "title": "Demo ceramic mug — blue",
+    "description": "Synthetic blue ceramic mug for a local feed experiment.",
+    "brand": "Example Workshop",
+    "seller_name": "Example Retailer",
+    "availability": "in_stock",
+    "price": "18.00 USD",
+    "id": "DEMO-MUG-BLUE",
+    "link": "https://example.com/mug?color=blue",
+    "image_link": "https://example.com/images/mug-blue.jpg"
+  },
+  "evidence": {},
+  "method": "mapped"
+}

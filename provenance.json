@@ -1,5 +1,5 @@
 {
-  "snapshotDate": "2026-09-21",
+  "snapshotDate": "2026-09-24",
   "scope": "Selected public website download artifacts. Source links and synthetic example labels are retained; this snapshot is not evidence of provider acceptance or adoption.",
   "files": [
     {
@@ -56,8 +56,23 @@
       "file": "artifacts/feed-freshness-example.json",
       "source": "https://www.iamgeorgekelly.com/downloads/feed-freshness-example.json",
       "sha256": "61dd6cae17bed9ad106d0249ad119343afcdea1c112c3d4d1343c1611d34a579"
+    },
+    {
+      "file": "artifacts/compare-product-dimensions.mjs",
+      "source": "https://www.iamgeorgekelly.com/downloads/compare-product-dimensions.mjs",
+      "sha256": "4495a960cfaf90440dd4ac3eb55a8ecd885f4d314f271b256b77672f6d3a6581"
+    },
+    {
+      "file": "artifacts/product-dimensions-cases.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-dimensions-cases.json",
+      "sha256": "245289ea6e8ad93f1c10f2a131505cd7195054297d5d31457cc20cd74fc18588"
+    },
+    {
+      "file": "artifacts/product-dimensions-example.json",
+      "source": "https://www.iamgeorgekelly.com/downloads/product-dimensions-example.json",
+      "sha256": "03648257df2cb6e82e9e446f31d178d582e67b05100929fd77f50f07676a0fd0"
     }
   ],
-  "sourceSiteCommit": "196c939ede485e5412237a05bf943d7eabbdb15a",
-  "sourceVerifiedAt": "2026-09-22T02:02:22Z"
+  "sourceSiteCommit": "afdaa132fee0f9c4540e5f938ae87b5a388893d0",
+  "sourceVerifiedAt": "2026-09-25T01:26:03.082010+00:00"
 }

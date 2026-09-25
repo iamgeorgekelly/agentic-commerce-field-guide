@@ -1,0 +1,40 @@
+{
+  "input": {
+    "schemaVersion": "1.0",
+    "source": {
+      "itemId": "EXAMPLE-STAND-01",
+      "basis": "product",
+      "evidenceRef": "fictional-spec-sheet:page-3",
+      "length": {
+        "value": "24",
+        "unit": "in"
+      },
+      "width": {
+        "value": "12",
+        "unit": "in"
+      },
+      "height": {
+        "value": "30",
+        "unit": "in"
+      }
+    },
+    "candidate": {
+      "itemId": "EXAMPLE-STAND-01",
+      "basis": "product",
+      "evidenceRef": "fictional-export:row-7",
+      "length": {
+        "value": "60.96",
+        "unit": "cm"
+      },
+      "width": {
+        "value": "30.48",
+        "unit": "cm"
+      },
+      "height": {
+        "value": "76.2",
+        "unit": "cm"
+      }
+    },
+    "toleranceMm": "0"
+  }
+}

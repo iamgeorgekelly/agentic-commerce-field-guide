@@ -1,0 +1,435 @@
+{
+  "schemaVersion": "1.0",
+  "ruleset": "dimension-comparison/1.0.0",
+  "exampleOnly": true,
+  "updated": "2026-09-20",
+  "canonicalUrl": "https://www.iamgeorgekelly.com/field-guide/product-dimensions-unit-conversion",
+  "scope": "Ten authored fixtures, not a sample of merchant data or an AI benchmark. Expected statuses are checked against the downloadable local runner. Evidence references are fictional and are not fetched.",
+  "cases": [
+    {
+      "id": "equivalent-units",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "match",
+      "reason": "The named axes are equal after conversion."
+    },
+    {
+      "id": "different-height",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "mismatch",
+      "reason": "Height differs by 2 mm."
+    },
+    {
+      "id": "package-is-not-product",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "package",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "hold",
+      "reason": "A carton measurement is a different fact."
+    },
+    {
+      "id": "different-item",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-02",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "hold",
+      "reason": "Equal dimensions cannot resolve item identity."
+    },
+    {
+      "id": "missing-unit",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "hold",
+      "reason": "No default unit is inferred."
+    },
+    {
+      "id": "swapped-axes",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "mismatch",
+      "reason": "Matching sets of numbers do not resolve axis orientation."
+    },
+    {
+      "id": "missing-axis",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "hold",
+      "reason": "A complete named three-axis comparison is required."
+    },
+    {
+      "id": "explicit-rounding-tolerance",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "61",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0.5"
+      },
+      "expectedStatus": "match",
+      "reason": "The 0.4 mm difference falls within the supplied tolerance, not a verified engineering tolerance."
+    },
+    {
+      "id": "rounding-with-zero-tolerance",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "61",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "mismatch",
+      "reason": "A 0.4 mm difference is not silently rounded away."
+    },
+    {
+      "id": "range-needs-interpretation",
+      "input": {
+        "schemaVersion": "1.0",
+        "source": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-spec-sheet:page-3",
+          "length": {
+            "value": "24-26",
+            "unit": "in"
+          },
+          "width": {
+            "value": "12",
+            "unit": "in"
+          },
+          "height": {
+            "value": "30",
+            "unit": "in"
+          }
+        },
+        "candidate": {
+          "itemId": "EXAMPLE-STAND-01",
+          "basis": "product",
+          "evidenceRef": "fictional-export:row-7",
+          "length": {
+            "value": "60.96",
+            "unit": "cm"
+          },
+          "width": {
+            "value": "30.48",
+            "unit": "cm"
+          },
+          "height": {
+            "value": "76.2",
+            "unit": "cm"
+          }
+        },
+        "toleranceMm": "0"
+      },
+      "expectedStatus": "hold",
+      "reason": "A range is not one measured value."
+    }
+  ]
+}
