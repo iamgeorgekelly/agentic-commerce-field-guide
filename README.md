@@ -43,7 +43,7 @@ Client configuration locations differ. This example declares the transport and e
 
 ## Try a complete input
 
-The files in `examples/` are complete **tool arguments**, not bare internal records. All examples are fictional and use frozen times where relevant.
+The files in `examples/` are complete **tool arguments**, not bare internal records. The three starter examples below are fictional and use frozen times where relevant.
 
 | Tool | Arguments file | Expected example result |
 |---|---|---|
@@ -54,6 +54,10 @@ The files in `examples/` are complete **tool arguments**, not bare internal reco
 Ask your client to call the named tool with that file's JSON object. Every successful response includes structured content with `toolVersion`, a canonical `documentation` URL and the full `result`. Each core result retains its own ruleset version and evidence limitations. Incomplete accepted inputs return holds; malformed envelopes and excessive requests return protocol tool errors. The wrapper caps serialized requests at 200,000 UTF-8 bytes and nesting at 25 levels; individual checks impose narrower limits.
 
 Dimension values are positive decimal strings and explicit units (`in`, `cm`, `mm`, `m`); tolerance is a nonnegative decimal string in millimetres. Do not silently rename depth to length, treat diameter as two axes, or substitute package measurements. Product-record review covers selected positive USD fields; feed freshness is a selected current USD snapshot contract. References are caller assertions and are never fetched.
+
+## One observed comparison
+
+[examples/observed-dimensions.json](examples/observed-dimensions.json) contains the HOLMERUD 40541421 dimensions observed on public US and GB product pages for the September 24 study. It returns `match` at the declared 2 mm display threshold and `mismatch` at zero. Fractional inch displays are represented exactly as decimals. The tool does not fetch or authenticate the linked sources. This threshold is not a manufacturing or installation tolerance. The study retains eight complete comparisons and 22 unresolved listings; it is not an industry error-rate estimate.
 
 ## Verify and package
 

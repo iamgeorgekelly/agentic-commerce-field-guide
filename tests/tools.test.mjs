@@ -8,6 +8,14 @@ import { compareDimensions } from '../artifacts/compare-product-dimensions.mjs';
 import { checkFreshness } from '../artifacts/feed-freshness.mjs';
 import { reviewInput } from '../artifacts/product-feed-review.mjs';
 const read = name => JSON.parse(readFileSync(new URL('../artifacts/' + name, import.meta.url)));
+test('observed HOLMERUD input preserves the declared threshold and exact identity', () => {
+  const args = JSON.parse(readFileSync(new URL('../examples/observed-dimensions.json', import.meta.url)));
+  assert.equal(invokeTool('compare_dimensions', args).structuredContent.result.status, 'match');
+  args.input.toleranceMm = '0';
+  assert.equal(invokeTool('compare_dimensions', args).structuredContent.result.status, 'mismatch');
+  args.input.candidate.itemId = 'another-article';
+  assert.equal(invokeTool('compare_dimensions', args).structuredContent.result.status, 'hold');
+});
 const cases = [
   ...read('product-dimensions-cases.json').cases.map(c => ({id: c.id, name: 'compare_dimensions', args: {input: c.input}, expected: compareDimensions(c.input), status: c.expectedStatus})),
   ...read('feed-freshness-cases.json').cases.map(c => ({id: c.id, name: 'compare_feed_snapshots', args: {input: c.input}, expected: checkFreshness(c.input), status: c.expectedStatus})),
