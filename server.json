@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.iamgeorgekelly/commerce-evidence-toolkit",
+  "description": "Read-only local evidence checks for product records, feed snapshots, and dimensions.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/download/v0.1.0/commerce-evidence-toolkit-0.1.0.mcpb",
+      "fileSha256": "87774c2f122615852c3897b6b4edc0dfa1b87829732b0ff2a9a342a437cc58f0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "title": "Commerce Evidence Toolkit"
+}

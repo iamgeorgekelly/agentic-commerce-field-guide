@@ -2,7 +2,7 @@
 
 Three local, read-only checks for agents working with product data. The package wraps the same versioned comparison rules published in the [Agentic Commerce Field Guide](https://www.iamgeorgekelly.com/field-guide).
 
-**Release candidate 0.1.0.** Packaging and protocol tests are complete. A reuse-license decision and public registry publication are pending; do not infer a registry listing from this repository. Original code retains its existing rights-reserved status until an explicit license is applied.
+**Version 0.1.0 · MIT licensed.** Download the [versioned release](https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/tag/v0.1.0), or run the source as described below. Registry availability is separate from a GitHub release; consult the live registry for its current state.
 
 ## What it does
 
@@ -13,6 +13,14 @@ Three local, read-only checks for agents working with product data. The package 
 | `compare_dimensions` | Same item and measurement basis, named length/width/height, units and tolerance | `match`, `mismatch` or `hold` |
 
 The checks do not fetch references, authenticate evidence, contact a merchant, change a feed, place orders or send telemetry. A match is not provider acceptance, live product truth, physical fit or compatibility. This is a selected local review contract, not a complete provider schema validator. Hold results are evidence decisions, not protocol failures.
+
+## Install the versioned bundle
+
+Download `commerce-evidence-toolkit-0.1.0.mcpb` and `SHA256SUMS` from the [v0.1.0 release](https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/tag/v0.1.0). Check the archive against its published SHA-256 checksum. The bundle contains the server and production dependencies; Node.js 22 or later is required.
+
+Use your compatible client's MCPB import flow, or extract the archive to a directory and configure the absolute path to its `server/index.mjs` using the JSON example below. MCPB support varies by client. Protocol tests do not establish certification by any desktop app.
+
+A Node package archive is also included in the release. Installing that archive requires npm to install its dependencies. It has not been published to npm.
 
 ## Run from source
 
@@ -87,4 +95,4 @@ Please cite the relevant guide and this version or commit. `CITATION.cff` provid
 
 ## Licensing
 
-No new reuse grant has been applied to the original code in this release candidate. Third-party dependencies retain their own license notices in the packaged dependency directories. Linked specifications, source pages, images and trademarks are not relicensed by this repository.
+Original software, documentation, tests and fictional fixtures are available under the [MIT License](LICENSE); see [license scope](LICENSE-SCOPE.md). Third-party dependencies retain their own license notices in the packaged dependency directories. Linked specifications, source pages, images and trademarks are not relicensed by this repository.

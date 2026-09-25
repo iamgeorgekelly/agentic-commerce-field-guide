@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Local evidence checks for product records, feed snapshots, and product dimensions. No accounts, network calls, or feed writes.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "George Kelly",
   "homepage": "https://www.iamgeorgekelly.com/for-agents",
   "repository": {

@@ -4,18 +4,57 @@
   "display_name": "Commerce Evidence Toolkit",
   "version": "0.1.0",
   "description": "Check supplied product records, feed snapshots, and dimensions locally.",
-  "author": { "name": "George Kelly", "url": "https://www.iamgeorgekelly.com" },
-  "server": { "type": "node", "entry_point": "server/index.mjs", "mcp_config": { "command": "node", "args": ["${__dirname}/server/index.mjs"] } },
+  "author": {
+    "name": "George Kelly",
+    "url": "https://www.iamgeorgekelly.com"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.mjs"
+      ]
+    }
+  },
   "tools": [
-    { "name": "review_product_record", "description": "Review selected product fields and explicit mappings." },
-    { "name": "compare_feed_snapshots", "description": "Compare supplied price, sale state and availability snapshots." },
-    { "name": "compare_dimensions", "description": "Compare named product or package dimensions with exact conversions." }
+    {
+      "name": "review_product_record",
+      "description": "Review selected product fields and explicit mappings."
+    },
+    {
+      "name": "compare_feed_snapshots",
+      "description": "Compare supplied price, sale state and availability snapshots."
+    },
+    {
+      "name": "compare_dimensions",
+      "description": "Compare named product or package dimensions with exact conversions."
+    }
   ],
   "tools_generated": false,
   "homepage": "https://www.iamgeorgekelly.com/for-agents",
   "documentation": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide#readme",
   "support": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide/issues",
-  "repository": { "type": "git", "url": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide" },
-  "compatibility": { "platforms": ["darwin", "win32", "linux"], "runtimes": { "node": ">=22.0.0" } },
-  "keywords": ["commerce", "product-data", "evidence", "local"]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamgeorgekelly/agentic-commerce-field-guide"
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=22.0.0"
+    }
+  },
+  "keywords": [
+    "commerce",
+    "product-data",
+    "evidence",
+    "local"
+  ],
+  "license": "MIT"
 }
