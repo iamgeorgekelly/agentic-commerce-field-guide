@@ -1,81 +1,98 @@
-# Agentic Commerce Field Guide — reproducible artifacts
+# Commerce Evidence Toolkit
 
-Practical product-data checks and reference files by [George Kelly](https://www.iamgeorgekelly.com/about). This repository is a public companion to the [Agentic Commerce Field Guide](https://www.iamgeorgekelly.com/field-guide).
+Three local, read-only checks for agents working with product data. The package wraps the same versioned comparison rules published in the [Agentic Commerce Field Guide](https://www.iamgeorgekelly.com/field-guide).
 
-**Start with a task:** [product data, commerce economics, supervised releases, or measurement](https://www.iamgeorgekelly.com/field-guide/start-here).
+**Version 0.1.0 · MIT licensed.** Download the [versioned release](https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/tag/v0.1.0), or run the source as described below. Registry availability is separate from a GitHub release; consult the live registry for its current state.
 
-## Compare feed price and stock snapshots
+## What it does
 
-The [feed-freshness guide](https://www.iamgeorgekelly.com/field-guide/product-feed-freshness) includes a local checker for exact item IDs, current USD prices, explicit sale state, and availability. Supply a source snapshot and a feed snapshot in the [example comparison format](artifacts/feed-freshness-example.json). The checker identifies selected-field differences or holds uncertain input for review. It does not fetch evidence, contact a provider, edit a feed, or establish what shoppers see.
+| Tool | Inputs | Result |
+|---|---|---|
+| `review_product_record` | One product object, optional supplied evidence, `copy` or `mapped` method | Selected-field review: `clear` or `hold` |
+| `compare_feed_snapshots` | Explicit source and feed snapshots, item IDs, evidence references, timestamps and age policy | `match`, `update_needed` or `hold` |
+| `compare_dimensions` | Same item and measurement basis, named length/width/height, units and tolerance | `match`, `mismatch` or `hold` |
 
-Requires Node.js 24 or later. No packages, API keys, or network access are needed after downloading the repository.
+The checks do not fetch references, authenticate evidence, contact a merchant, change a feed, place orders or send telemetry. A match is not provider acceptance, live product truth, physical fit or compatibility. This is a selected local review contract, not a complete provider schema validator. Hold results are evidence decisions, not protocol failures.
 
-```sh
-node artifacts/check-feed-freshness.mjs artifacts/feed-freshness-example.json
-```
+## Install the versioned bundle
 
-The fictional example reports `update_needed`, with exit code `1`, because the supplied source has a sale and the feed does not. Exit code `0` means the selected fields match; `2` means hold or invalid input. The CLI needs [feed-freshness.mjs](artifacts/feed-freshness.mjs) beside it.
+Download `commerce-evidence-toolkit-0.1.0.mcpb` and `SHA256SUMS` from the [v0.1.0 release](https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/tag/v0.1.0). Check the archive against its published SHA-256 checksum. The bundle contains the server and production dependencies; Node.js 22 or later is required.
 
-[Six synthetic cases](artifacts/feed-freshness-cases.json) cover a sale starting, a sale ending, stock selling out, preorder availability, one variant changing, and conflicting timestamps. Their fixed reference times make the examples repeatable; they do not describe customer incidents or real-world error rates.
+Use your compatible client's MCPB import flow, or extract the archive to a directory and configure the absolute path to its `server/index.mjs` using the JSON example below. MCPB support varies by client. Protocol tests do not establish certification by any desktop app.
 
-```sh
-node scripts/verify-artifacts.mjs
-```
+A Node package archive is also included in the release. Installing that archive requires npm to install its dependencies. It has not been published to npm.
 
-This verifies every artifact against its recorded SHA-256 and reproduces the six freshness decisions, the example CLI result, and the recorded portability experiment.
+## Run from source
 
-## Reproduce the product-feed experiment
-
-The experiment compares unchanged copying with explicit mapping across **12 synthetic records**: two controls and ten failure cases. Under the declared local checks, copying clears 2 of 12; mapping clears 6 of 12. Mapping repairs four representation problems. Six cases still require missing or conflicting evidence to be resolved.
-
-This is a deterministic demonstration, not provider certification, an AI benchmark, or evidence of customer outcomes. It does not upload a feed or contact a model.
+Requires Node.js 22 or later and npm. Dependency installation uses the network; the three comparison operations run locally after installation.
 
 ```sh
-node artifacts/product-feed-portability.mjs --check
-node artifacts/product-feed-portability.mjs > local-results.json
+npm ci --ignore-scripts
+npm test
+node server/index.mjs
 ```
 
-The first command checks the recorded results and source hashes. The second writes a fresh report, including an execution timestamp. Read the [methodology, controls, results, and limitations](https://www.iamgeorgekelly.com/field-guide/product-feed-portability-experiment).
+The final command starts an MCP server over standard input/output. It waits for a compatible client; it is not a browser URL. Do not print debug messages to stdout, which carries the protocol.
 
-| File | Purpose | Explanation |
-| --- | --- | --- |
-| [Runner](artifacts/product-feed-portability.mjs) | Recorded experiment and local-file entry point | [Experiment](https://www.iamgeorgekelly.com/field-guide/product-feed-portability-experiment) |
-| [Shared review core](artifacts/product-feed-review.mjs) | Mapping and review rules also used by the browser checker | [Check your record](https://www.iamgeorgekelly.com/field-guide/product-feed-portability-experiment#explore-cases) |
-| [Cases](artifacts/product-feed-portability-cases.json) | Frozen synthetic inputs and supplied evidence | [Variant acceptance](https://www.iamgeorgekelly.com/field-guide/product-variant-acceptance-test) |
-| [Recorded results](artifacts/product-feed-portability-results.json) | Expected observations and hashes | [Results and scope](https://www.iamgeorgekelly.com/field-guide/product-feed-portability-experiment#observed-results) |
-| [20-field reference](artifacts/product-feed-reference.json) | Selected Shopify, Google, and OpenAI field representations | [Field reference](https://www.iamgeorgekelly.com/field-guide/product-feed-field-reference) |
-| [Identity ledger](artifacts/product-identity-ledger.json) | Fictional SKU, GTIN, parent, and offer review decisions | [Product identifiers](https://www.iamgeorgekelly.com/field-guide/product-identifiers-sku-gtin-variants) |
-| [Metric dictionary](artifacts/ai-visibility-metrics.json) | Units, source notes, and interpretation limits | [AI visibility metrics](https://www.iamgeorgekelly.com/field-guide/ai-visibility-metrics-reference) |
+For a compatible client that accepts an MCP JSON configuration, replace the path below with the absolute location of your checkout:
 
-## Review your own product record
+```json
+{
+  "mcpServers": {
+    "commerce-evidence": {
+      "command": "node",
+      "args": ["/absolute/path/agentic-commerce-field-guide/server/index.mjs"]
+    }
+  }
+}
+```
 
-Save one product JSON object as `product.json` and run an unchanged review:
+Client configuration locations differ. This example declares the transport and executable; it does not claim every assistant automatically installs or invokes the server.
+
+## Try a complete input
+
+The files in `examples/` are complete **tool arguments**, not bare internal records. The three starter examples below are fictional and use frozen times where relevant.
+
+| Tool | Arguments file | Expected example result |
+|---|---|---|
+| `compare_dimensions` | [examples/dimensions.json](examples/dimensions.json) | `match` |
+| `compare_feed_snapshots` | [examples/feed-snapshots.json](examples/feed-snapshots.json) | `update_needed` |
+| `review_product_record` | [examples/product-record.json](examples/product-record.json) | `clear` after explicit mapping |
+
+Ask your client to call the named tool with that file's JSON object. Every successful response includes structured content with `toolVersion`, a canonical `documentation` URL and the full `result`. Each core result retains its own ruleset version and evidence limitations. Incomplete accepted inputs return holds; malformed envelopes and excessive requests return protocol tool errors. The wrapper caps serialized requests at 200,000 UTF-8 bytes and nesting at 25 levels; individual checks impose narrower limits.
+
+Dimension values are positive decimal strings and explicit units (`in`, `cm`, `mm`, `m`); tolerance is a nonnegative decimal string in millimetres. Do not silently rename depth to length, treat diameter as two axes, or substitute package measurements. Product-record review covers selected positive USD fields; feed freshness is a selected current USD snapshot contract. References are caller assertions and are never fetched.
+
+## One observed comparison
+
+[examples/observed-dimensions.json](examples/observed-dimensions.json) contains the HOLMERUD 40541421 dimensions observed on public US and GB product pages for the September 24 study. It returns `match` at the declared 2 mm display threshold and `mismatch` at zero. Fractional inch displays are represented exactly as decimals. The tool does not fetch or authenticate the linked sources. This threshold is not a manufacturing or installation tolerance. The study retains eight complete comparisons and 22 unresolved listings; it is not an industry error-rate estimate.
+
+## Verify and package
 
 ```sh
-node artifacts/product-feed-portability.mjs --record product.json
+npm run verify:artifacts
+npm test
+node scripts/test-clean-install.mjs
+npm run bundle
 ```
 
-To apply the declared field mappings, add `--method mapped`. Optional evidence is a separate JSON object, for example `{"pagePrice":"18.00 USD","dimensionBasis":"product"}`:
+`npm run bundle` creates a local `.mcpb` archive with the production dependencies and a SHA-256 file under `dist/`. The Node package can be built with `npm pack`. A local package build is not an npm or MCP Registry publication.
 
-```sh
-node artifacts/product-feed-portability.mjs --record product.json --evidence evidence.json --method mapped
-```
+The test suite compares all 40 fixture/method cases against their source rules (10 dimensions, 6 freshness, and 12 product records under 2 methods), checks error bounds and input immutability, and invokes all 40 over stdio with the TypeScript SDK client. The clean-install test installs the archive into a temporary directory and calls all three tools. A separate [Python SDK client test](scripts/test-python-client.py) calls all three examples and an incomplete-input hold. These are protocol tests with synthetic inputs, not independent users or desktop-app certification.
 
-The runner requires [product-feed-review.mjs](artifacts/product-feed-review.mjs) in the same folder. Input and optional evidence together must fit within 64 KiB. The result retains input, supplied evidence, changes, field issues, and limits. Missing or conflicting facts are not inferred; supplied evidence is not independently verified. No issue in this small canonical-field and positive-USD subset does not mean provider acceptance.
+## Evidence and scope
 
-## Other working resources
+`provenance.json` records the source site commit, actual production download verification time, and SHA-256 for every file in `artifacts/`. The September 24 snapshot adds dimensions to the existing product-feed and measurement artifacts. Verification recomputes hashes and the earlier portability/freshness cases. Synthetic cases show rule behavior, not merchant error rates or model accuracy.
 
-- [ROAS and contribution calculator](https://www.iamgeorgekelly.com/field-guide/roas-poas-profit#calculator): compare advertising return with contribution after variable costs.
-- [Inventory and ad-spend worksheet](https://www.iamgeorgekelly.com/field-guide/inventory-aware-ad-spend): check the daily stock path before increasing spend.
-- [AI review and rework cost calculator](https://www.iamgeorgekelly.com/field-guide/ai-review-rework-cost): count preparation, supervision, review, and corrections.
-- [AI search measurement collection](https://www.iamgeorgekelly.com/field-guide/ai-search-measurement): definitions, worksheets, report reconciliation, and planning.
-- [Source directory](https://www.iamgeorgekelly.com/field-guide/sources): original references with per-guide scope notes and recorded check dates.
-- [Agent access and API documentation](https://www.iamgeorgekelly.com/for-agents): matching Markdown and JSON, feeds, and the implemented read-only contribution endpoint.
+Primary tool documentation:
 
-## Provenance, updates, and citation
+- [Product record review](https://www.iamgeorgekelly.com/field-guide/product-feed-portability-experiment)
+- [Feed freshness](https://www.iamgeorgekelly.com/field-guide/product-feed-freshness)
+- [Dimension comparison](https://www.iamgeorgekelly.com/field-guide/product-dimensions-unit-conversion)
+- [Agent access and editorial policy](https://www.iamgeorgekelly.com/for-agents)
 
-This September 21, 2026 snapshot contains selected public website download artifacts. [provenance.json](provenance.json) records each public source URL, SHA-256 hash, source website commit, and production verification timestamp. This repository is a snapshot; the website carries the current editorial edition. Provider documentation can change after a recorded source check.
+Please cite the relevant guide and this version or commit. `CITATION.cff` provides author metadata. To report a correction, open an issue with the tool version, a minimal non-sensitive input, expected result, actual result and supporting reference. Never post customer data or credentials.
 
-Cite the specific article, author, and editorial date. When reproducing these files, also record the repository commit. [CITATION.cff](CITATION.cff) supplies repository citation metadata.
+## Licensing
 
-Examples remain synthetic or illustrative. They are not employer performance results. Original frameworks are editorial proposals; linked documentation supports only the claims identified in the source notes. See the [editorial policy and correction process](https://www.iamgeorgekelly.com/for-agents#editorial-policy).
+Original software, documentation, tests and fictional fixtures are available under the [MIT License](LICENSE); see [license scope](LICENSE-SCOPE.md). Third-party dependencies retain their own license notices in the packaged dependency directories. Linked specifications, source pages, images and trademarks are not relicensed by this repository.

@@ -1,0 +1,40 @@
+{
+  "input": {
+    "schemaVersion": "1.0",
+    "source": {
+      "itemId": "40541421",
+      "basis": "product",
+      "evidenceRef": "https://www.ikea.com/us/en/p/holmerud-side-table-oak-effect-40541421/",
+      "length": {
+        "value": "31.5",
+        "unit": "in"
+      },
+      "width": {
+        "value": "12.25",
+        "unit": "in"
+      },
+      "height": {
+        "value": "20.5",
+        "unit": "in"
+      }
+    },
+    "candidate": {
+      "itemId": "40541421",
+      "basis": "product",
+      "evidenceRef": "https://www.ikea.com/gb/en/p/holmerud-side-table-oak-effect-40541421/",
+      "length": {
+        "value": "80",
+        "unit": "cm"
+      },
+      "width": {
+        "value": "31",
+        "unit": "cm"
+      },
+      "height": {
+        "value": "52",
+        "unit": "cm"
+      }
+    },
+    "toleranceMm": "2"
+  }
+}

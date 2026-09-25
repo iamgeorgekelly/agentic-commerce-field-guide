@@ -1,0 +1,51 @@
+name: Publish MCP Registry entry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.repository == 'iamgeorgekelly/agentic-commerce-field-guide' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Check release identity and published archive
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, urllib.request
+          from pathlib import Path
+          server = json.loads(Path('server.json').read_text())
+          assert server['name'] == 'io.github.iamgeorgekelly/commerce-evidence-toolkit'
+          assert server['version'] == '0.1.0'
+          package = server['packages'][0]
+          assert package['identifier'] == 'https://github.com/iamgeorgekelly/agentic-commerce-field-guide/releases/download/v0.1.0/commerce-evidence-toolkit-0.1.0.mcpb'
+          assert package['registryType'] == 'mcpb'
+          assert len(server['packages']) == 1
+          with urllib.request.urlopen(package['identifier'], timeout=60) as response:
+              archive = response.read()
+          assert hashlib.sha256(archive).hexdigest() == package['fileSha256']
+          print('Published v0.1.0 bundle matches registry metadata.')
+          PY
+      - name: Install verified official publisher
+        run: |
+          curl --fail --location --silent --show-error https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz -o publisher.tar.gz
+          echo 'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  publisher.tar.gz' | sha256sum --check
+          tar -xzf publisher.tar.gz mcp-publisher
+      - name: Validate registry metadata
+        run: ./mcp-publisher validate server.json
+      - name: Authenticate with temporary GitHub identity
+        run: ./mcp-publisher login github-oidc
+      - name: Publish registry metadata
+        run: ./mcp-publisher publish server.json
+      - name: Remove runner login state
+        if: always()
+        run: if [ -x ./mcp-publisher ]; then ./mcp-publisher logout; fi
